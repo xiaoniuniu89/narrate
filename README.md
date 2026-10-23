@@ -1,6 +1,6 @@
 # Narrate
 
-A small Mac menu bar app for talking through what you're seeing while you investigate something.
+**A native macOS app** (Mac only, not Windows or Linux) that lives in your menu bar and lets you talk through what you're seeing while you investigate something.
 
 Anything you copy while you're recording (a link, a log line, a stack trace) is dropped into your narration at the point where you copied it. When you stop, the whole narration is on your clipboard, ready to paste into Claude, a ticket, or a message.
 
@@ -31,24 +31,49 @@ xcode-select --install
 
 ## Install
 
+Installing happens in two places, and you can choose both:
+
+1. **The source folder**: where the code lives and where you run `build.sh`. These examples use `~/narrate` in your home folder, but it can be anywhere, e.g. `~/code/narrate`. Just use the same folder in every command.
+2. **The app itself**: by default `build.sh` installs `Narrate.app` into `/Applications`, so it shows up in Spotlight and Launchpad like any other app.
+
+### With git
+
 ```bash
 git clone https://github.com/xiaoniuniu89/narrate.git ~/narrate
 cd ~/narrate
 ./build.sh
 ```
 
-**No git?** Put the files (`main.swift`, `makeicon.swift`, `Info.plist`, `build.sh`, plus `icon.png` if you have it) in a folder called `~/narrate`, then run `cd ~/narrate && chmod +x build.sh && ./build.sh`.
+### Without git
 
-`build.sh` compiles the app, installs it in `/Applications` and opens it. When it's done, you'll see a speech-bubble icon in your menu bar, next to wifi and battery.
+Put these files in a folder, e.g. `~/narrate`: `main.swift`, `makeicon.swift`, `Info.plist` and `build.sh`, plus `icon.png` if you have it. Then:
 
-From then on, you can open Narrate from **Applications**, **Spotlight** or **Launchpad**, like any other app.
+```bash
+cd ~/narrate
+chmod +x build.sh
+./build.sh
+```
+
+### What `build.sh` does
+
+It compiles the app into `build/` inside the source folder, then copies `Narrate.app` into `/Applications` and opens it. When it's done, you'll see a speech-bubble icon in your menu bar, next to wifi and battery. From then on, open Narrate from **Applications**, **Spotlight** or **Launchpad**.
+
+### Installing the app somewhere else
+
+If you can't or don't want to write to `/Applications`, for example on a managed Mac without admin rights, set `INSTALL_DIR`:
+
+```bash
+INSTALL_DIR=~/Applications ./build.sh
+```
+
+`~/Applications` (the Applications folder inside your home folder) is still picked up by Spotlight. Any folder works, but use the same `INSTALL_DIR` every time you update.
 
 ### Update
 
 ```bash
-cd ~/narrate
-git pull
-./build.sh
+cd ~/narrate          # your source folder
+git pull              # or replace the files by hand if you installed without git
+./build.sh            # add INSTALL_DIR=... in front if you used a custom location
 ```
 
 This replaces the installed app and restarts it. Your vocabulary is kept.
@@ -144,6 +169,8 @@ Nothing else is kept. You can open both files from the menu, so you never need t
 killall Narrate
 rm -rf /Applications/Narrate.app ~/Library/Application\ Support/Narrate ~/narrate
 ```
+
+If you used a different source folder or `INSTALL_DIR`, swap those paths in.
 
 ---
 

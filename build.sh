@@ -1,8 +1,13 @@
 #!/bin/bash
 # Builds Narrate.app, installs it in /Applications and opens it.
 # Needs Xcode Command Line Tools:  xcode-select --install
+#
+# Install somewhere else by setting INSTALL_DIR, e.g.:
+#   INSTALL_DIR=~/Applications ./build.sh
 set -euo pipefail
 cd "$(dirname "$0")"
+
+INSTALL_DIR="${INSTALL_DIR:-/Applications}"
 
 APP=build/Narrate.app
 rm -rf build
@@ -25,10 +30,11 @@ iconutil -c icns "$ICONSET" -o "$APP/Contents/Resources/AppIcon.icns"
 
 codesign --force --sign - "$APP"
 
-echo "Installing to /Applications…"
+echo "Installing to $INSTALL_DIR…"
 killall Narrate 2>/dev/null || true
-rm -rf /Applications/Narrate.app
-cp -R "$APP" /Applications/
-open /Applications/Narrate.app
+mkdir -p "$INSTALL_DIR"
+rm -rf "$INSTALL_DIR/Narrate.app"
+cp -R "$APP" "$INSTALL_DIR/"
+open "$INSTALL_DIR/Narrate.app"
 
 echo "Done — Narrate is in your menu bar (speech-bubble icon)."
