@@ -14,6 +14,7 @@ swiftc -O main.swift -o "$APP/Contents/MacOS/Narrate" \
 cp Info.plist "$APP/Contents/Info.plist"
 
 echo "Making the app icon…"
+[ -f icon.png ] || swift makeicon.swift icon.png
 ICONSET=build/AppIcon.iconset
 mkdir -p "$ICONSET"
 for size in 16 32 128 256 512; do

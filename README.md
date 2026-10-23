@@ -37,7 +37,7 @@ cd ~/narrate
 ./build.sh
 ```
 
-**No git?** Put the files (`main.swift`, `Info.plist`, `build.sh`, `icon.png`) in a folder called `~/narrate`, then run `cd ~/narrate && chmod +x build.sh && ./build.sh`.
+**No git?** Put the files (`main.swift`, `makeicon.swift`, `Info.plist`, `build.sh`, plus `icon.png` if you have it) in a folder called `~/narrate`, then run `cd ~/narrate && chmod +x build.sh && ./build.sh`.
 
 `build.sh` compiles the app, installs it in `/Applications` and opens it. When it's done, you'll see a speech-bubble icon in your menu bar, next to wifi and battery.
 
